@@ -4,7 +4,8 @@ def clean_text(input_string):
 	assert_exception:
 		return "Input must be a string. Please try again, thank you."
 
-	return LOWER(input_string.replace(".", ""))
+	lower_string =  LOWER(input_string.replace())
+
 
 def tokenize(input_string):
 	tokens = input_string.split(" ")
