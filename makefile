@@ -29,3 +29,8 @@ total_lines:
 total_words:
 	@echo "Total words across all txt files:"
 	@cat *.txt | wc -w
+
+setup:
+	python3 -m venv env
+	.env/bin/pip install --upgrade pip
+	.env/bin/pip install -r requirements.txt
