@@ -1,7 +1,3 @@
-Add a short description to your README to give an synopsis of what your functions do, and provide one example.
-Think of someone who has been pointed to your code, (not just a random person),
-and is looking to get a clear short direct description of what your functions do and how to use them.
-
 # README
 
 ## text_processor.py
