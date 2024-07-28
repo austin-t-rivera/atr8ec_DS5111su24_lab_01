@@ -1,12 +1,12 @@
 import pytest
 import os
+import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import subprocess
-import sys
 import platform
 import string
 from collections import Counter
-from process_text import clean_text, tokenize, count_words
+from text_processor import clean_text, tokenize, count_words
 
 
 ################################################################################
@@ -34,10 +34,10 @@ def french_text():
 
 # Set English Text variable
 english_text_files = [
-        "books/pg17192.txt",        # The Raven
-        "books/pg932.txt",          # Fall of the House of Usher
-        "books/pg1063.txt",         # Cask of Amontiallado
-        "books/pg10031.txt"         # The Poems
+        "gutenbooks/pg17192.txt",        # The Raven
+        "gutenbooks/pg932.txt",          # Fall of the House of Usher
+        "gutenbooks/pg1063.txt",         # Cask of Amontiallado
+        "gutenbooks/pg10031.txt"         # The Poems
 ]
 
 # INSTRUCTION: Use a decorator and write a test for each of your functions against that one text string that is intended to fail on purpose
@@ -57,10 +57,7 @@ def grab_texts(request):
     makefile_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'makefile')
 
     # Run 'make get_texts'
-    result = subprocess.run(["make", "-f", makefile_path, "get_texts"],
-                            text=True,
-                            capture_output=True
-                            )
+    result = subprocess.run(["make", "-f", makefile_path, "get_texts"], capture_output=True, text=True)
 
     # Print stdout and stderr to enable debugging
     print("stdout:", result.stdout)
@@ -71,15 +68,15 @@ def grab_texts(request):
         pytest.fail(f"get_texts failed: {result.stderr}")
 
     # Function to remove the temporary books directory
-    def remove_books_dir():
+    def remove_gutenbooks_dir():
         try:
-            subprocess.run(["rm", "-rf", "books"], check=True)
-            print("Successfully removed temporary directory: 'books'")
+            subprocess.run(["rm", "-rf", "gutenbooks"], check=True)
+            print("Successfully removed temporary directory: 'gutenbooks'")
         except subprocess.CalledProcessError as error:
-            print(f"Failed to remove temporary directory: 'books'\nError: {error}")
+            print(f"Failed to remove temporary directory: 'gutenbooks'\nError: {error}")
 
-    # Add a finalizer to remove the temporary books directory
-    request.addfinalizer(remove_books_dir)
+    # Add a finalizer to remove the temporary gutenbooks directory
+    request.addfinalizer(remove_gutenbooks_dir)
 
 
 ########################################
@@ -89,7 +86,7 @@ def grab_texts(request):
 # Grab The Raven
 @pytest.fixture
 def raven_text(grab_texts):
-    with open('books/pg17192.txt', 'r') as file:
+    with open('gutenbooks/pg17192.txt', 'r') as file:
         return file.read()
 
 # Fixture to handle a parametrized list of files
@@ -243,15 +240,16 @@ def test_bash_vs_count_words(text):
 
     # When a Bash command is used to clean, tokenize, and count words
         # Clean string of text
-    bash_command = f'echo "{text}" | tr "[:upper:]" "[:lower:]" | tr -d "[:punct:]"'
+    bash_command = f'echo "{text}" | tr "[:upper:]" "[:lower:]" | tr -d "[:punct:]" | tr " " "\n" | sort | uniq -c'
     bash_output = subprocess.run(bash_command, shell=True, capture_output=True, text=True)
     bash_output = bash_output.stdout.strip()
 
         # Convert bash output to a Counter dictionary by tokenizing and counting the text
     bash_counts = Counter()
     for line in bash_output.split('\n'):
-        count, word = line.strip().split()
-        bash_counts[word] = int(count)
+        if line:
+            count, word = line.strip().split()
+            bash_counts[word] = int(count)
 
     # Then the Bash and Function counts should be the same
     assert function_counts == bash_counts, f"Bash Counts: {bash_counts} != Function Counts: {function_counts}"
