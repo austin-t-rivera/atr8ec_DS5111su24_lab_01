@@ -1,3 +1,4 @@
+[![Python package](https://github.com/austin-t-rivera/atr8ec_DS5111su24_lab_01/actions/workflows/validations.yml/badge.svg)](https://github.com/austin-t-rivera/atr8ec_DS5111su24_lab_01/actions/workflows/validations.yml)
 # README
 
 ## text_processor.py
