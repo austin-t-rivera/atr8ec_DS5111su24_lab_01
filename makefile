@@ -32,5 +32,5 @@ total_words:
 
 setup:
 	python3 -m venv env
-	.venv/bin/pip install --upgrade pip
-	.venv/bin/pip install -r requirements.txt
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -r requirements.txt
