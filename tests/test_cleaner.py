@@ -124,7 +124,7 @@ def test_cleaner(text):
     cleaned_text = clean_text(text)
 
     # Then the expected output should be a lowercase string with no punctuation
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 
@@ -145,8 +145,8 @@ def test_cleaner_raven(raven_text):
     # When the string of text is cleaned
     cleaned_text = clean_text(raven_text)
 
-    # Then the expected output should be a lowercase string with no punctuation 
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    # Then the expected output should be a lowercase string with no punctuation
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 
@@ -161,8 +161,8 @@ def test_cleaner_english_test_files(filename, read_file):
     # When the string of text is cleaned
     cleaned_text = clean_text(english_text)
 
-    # Then the expected output should be a lowercase string with no punctuation 
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    # Then the expected output should be a lowercase string with no punctuation
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 
@@ -173,8 +173,8 @@ def test_cleaner_combined(english_texts):
     # When the string of text is cleaned
     cleaned_text = clean_text(english_texts)
 
-    # Then the expected output should be a lowercase string with no punctuation 
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    # Then the expected output should be a lowercase string with no punctuation
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 
@@ -190,8 +190,8 @@ def test_cleaner_french(french_text):
     # When the string of text is cleaned
     cleaned_text = clean_text(french_text)
 
-    # Then the expected output should be a lowercase string with no punctuation 
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    # Then the expected output should be a lowercase string with no punctuation
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 
@@ -205,8 +205,8 @@ def test_cleaner_japanese():
     # When the string of text is cleaned
     cleaned_text = clean_text(japanese_text)
 
-    # Then the expected output should be a lowercase string with no punctuation 
-    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected a string"
+    # Then the expected output should be a lowercase string with no punctuation
+    assert isinstance(cleaned_text, str), f"dtype error: Clean Text output is expected to be a string"
     assert cleaned_text == cleaned_text.lower(), f"Text not cleaned, capital letter found!"
     assert all(x not in string.punctuation for x in cleaned_text), f"Text not cleaned, punctuation found!"
 

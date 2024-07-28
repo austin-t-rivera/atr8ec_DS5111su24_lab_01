@@ -4,9 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import subprocess
 import platform
-import string
-from collections import Counter
-from text_processor import clean_text, tokenize, count_words
+from text_processor import clean_text, tokenize
 
 
 ################################################################################
@@ -118,63 +116,63 @@ def english_texts():
 
 # INSTRUCTION: Use text and write a test for each of your functions.
 # Test of the sample English text from the Raven
-def test_counter(text):
+def test_tokenizer(text):
     # Given a string of text
-    # When the string of text is tokenized and tokens are counted
-    counts = count_words(text)
+    # When the string of text is tokenized
+    tokens = tokenize(text)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == {'but':1,'the':2, 'raven':1, 'sitting':1, 'lonely':1, 'on':1,
-                      'placid':1, 'bust':1, 'spoke':1, 'only':1, 'that':2, 'one':2,
-                      'word':2, 'as':1, 'if':1, 'his':1, 'soul':1, 'in':1, 'he':1,
-                      'did':1, 'outpour':1}
-    assert counts == Counter(tokenize(text))
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(text).split(), f"Text was not split properly"
+    assert tokens == ['but','the', 'raven', 'sitting', 'lonely', 'on', 'the', 'placid',
+                      'bust', 'spoke', 'only', 'that', 'one', 'word', 'as', 'if', 'his', 'soul',
+                      'in', 'that', 'one', 'word', 'he', 'did', 'outpour']
+
 
 # INSTRUCTION: Use a decorator and write a test for each of your functions against that one text string that is intended to fail on purpose
 # Test of the input type that is expected to fail
 @expected_to_fail
-def test_counter_intended_failure_type():
+def test_tokenizer_intended_failure_type():
     # Given an integer instead of a string of text
-    # When the counter tries to process the integer
+    # When the tokenizer tries to process the integer
     # Then an assertion error should be raised
     with pytest.raises(AssertionError):
-        count_words(999)
+        tokenize(999)
 
 # INSTRUCTION: Write a test for each of your functions now working against the whole 'The Raven' file
 # Test to check function on just the Raven
-def test_counter_raven(raven_text):
+def test_tokenizer_raven(raven_text):
     # Given a string of text
-    # When the string of text is tokenized and tokens are counted
-    counts = count_words(raven_text)
+    # When the string of text is tokenized
+    tokens = tokenize(raven_text)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == Counter(tokenize(raven_text))
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(raven_text).split(" "), f"Text was not split properly"
 
 # INSTRUCTION: Expand that, by following the parametrizing procedure in the book so you can pass in the list of files to a test to run each of your English files.
 #              I.e. a parameter to the test is a list of the file names, and for each name a test is run independently.
 # Test to check function on each English text separately
 @pytest.mark.parametrize("filename", english_text_files)
-def test_counter_english_test_files(filename, read_file):
+def test_tokenizer_english_test_files(filename, read_file):
     # Given the text from a file
-    # When the string of text from the file is tokenized and tokens are counted
-    counts = count_words(filename)
+    # When the string of text from the file is tokenized
+    tokens = tokenize(filename)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == Counter(tokenize(filename))
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(filename).split(" "), f"Text was not split properly"
 
 # INSTRUCTION: Now write a test for ALL the English files together.
 # Test to check function on all English texts combined
-def test_counter_combined(english_texts):
-    # Given a string of text
-    # When the string of text is tokenized and tokens are counted
-    counts = count_words(english_texts)
+def test_tokenizer_combined(english_texts):
+    # Given a text string
+    # When the string of text is tokenized
+    tokens = tokenize(english_texts)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == Counter(tokenize(english_texts))
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(english_texts).split(" "), f"Text was not split properly"
 
 
 ########################################
@@ -183,27 +181,28 @@ def test_counter_combined(english_texts):
 
 # INSTRUCTION: Finally, write a test for Le Corbeau for each of your functions using the following as the text
 # Test to check function on Le Corbeau text
-def test_counter_french(french_text):
-    # Given a string of French text
-    # When the string of text is tokenized and tokens are counted
-    counts = count_words(french_text)
+def test_tokenizer_french(french_text):
+    # Given a text string
+    # When the string of text is tokenized
+    tokens = tokenize(french_text)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == Counter(tokenize(french_text))
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(french_text).split(" "), f"Text was not split properly"
 
 # INSTRUCTION: use the skip decorator for a test that hypothetically is expected to pass but can't be run, say we will eventually run a Japanese version but we are not ready yet
 # Test for future Japanese version that is marked to be skipped
 @pytest.mark.skip(reason="Japanese version in development")
-def test_counter_japanese():
-    # Given a string of Japanese text
+def test_tokenizer_japanese():
+    # Given a Japanese text
     japanese_text = "insert Japanese text here"
-    # When the string of text is tokenized and tokens are counted
-    counts = count_words(japanese_text)
 
-    # Then the expected output should be a token: counts dictionary
-    assert isinstance(counts, dict), f"dtype error: Counter output is expected to be a dictionary"
-    assert counts == Counter(tokenize(japanese_text))
+    # When the string of text is tokenized
+    tokens = tokenize(japanese_text)
+
+    # Then the expected output should be a list of cleaned strings
+    assert isinstance(tokens, list), f"dtype error: Tokenizer output is expected to be a list"
+    assert tokens == clean_text(japanese_text).split(" "), f"Text was not split properly"
 
 # INSTRUCTION: Make a test continional on your OS, so if the tests are run on a different OS they fail to warn you have not tested on that OS.
 # Test if the current user OS is supported
@@ -235,22 +234,17 @@ def test_python_version():
 
 # INSTRUCTION: Write a test that uses bash/linux to get a result on a test string and compare it against your functions. The function should pass if the results are the same.
 # Test to compare function against bash command
-def test_bash_vs_count_words(text):
+def test_bash_vs_tokenize(text):
     # Given a string of text using function
-    function_counts = count_words(text)
+    function_tokens = tokenize(text)
 
-    # When a Bash command is used to clean, tokenize, and count words
+    # When a Bash command is used to clean a string of text and then tokenize
         # Clean string of text
-    bash_command = f'echo "{text}" | tr "[:upper:]" "[:lower:]" | tr -d "[:punct:]" | tr " " "\n" | sort | uniq -c'
+    bash_command = f'echo "{text}" | tr "[:upper:]" "[:lower:]" | tr -d "[:punct:]" | tr " " "\n"'
     bash_output = subprocess.run(bash_command, shell=True, capture_output=True, text=True)
-    bash_output = bash_output.stdout.strip()
+        # Tokenize the cleaned string
+    bash_tokens = bash_output.stdout.strip().split("\n")
 
-        # Convert bash output to a Counter dictionary by tokenizing and counting the text
-    bash_counts = Counter()
-    for line in bash_output.split('\n'):
-        if line:
-            count, word = line.strip().split()
-            bash_counts[word] = int(count)
 
-    # Then the Bash and Function counts should be the same
-    assert function_counts == bash_counts, f"Bash Counts: {bash_counts} != Function Counts: {function_counts}"
+    # Then the Bash and Function tokens should be the same
+    assert function_tokens == bash_tokens, f"Bash Tokens: {bash_tokens} != Function Tokens: {function_tokens}"
