@@ -33,7 +33,11 @@ total_words:
 	@cat *.txt | wc -w
 
 setup:
+	@echo "Setting up virtual environment, updating pip, and stalling requirements..."
 	python3 -m venv venv
 	./venv/bin/pip install --upgrade pip
 	./venv/bin/pip install -r requirements.txt
 
+test:
+	@echo "NON-integration tests running..."
+	pytest -v -m "not integration"

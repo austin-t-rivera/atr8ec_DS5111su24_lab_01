@@ -22,6 +22,7 @@ jobs:
         run: |
           make setup
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Test with pytest
-        run: |
-          pytest -vvx tests/
+      - name: Test Non-integration tests with pytest
+        run: make test
+      - name: Test integration tests with pytest
+        run: pytest -v -m "integration"
