@@ -1,0 +1,36 @@
+name: Python package
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      run_pytest_non_integration:
+        description: 'Run Pytest | Non-integration Tests'
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          make setup
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run Pytest | Non-integration Tests
+        if: github.event_name == 'push' || github.event.inputs.run_pytest_non_integration
+        run: make test
+      - name: Run Pytest | Integration Tests
+        run: pytest -v -m "integration" --junitxml=test-logs.xml
+        continue-on-error: true
