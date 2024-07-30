@@ -34,9 +34,3 @@ jobs:
       - name: Run Pytest | Integration Tests
         run: pytest -v -m "integration" --junitxml=test-logs.xml
         continue-on-error: true
-      - name: Cat test-logs on failure
-        if: failure()
-        run: |
-          if [ -f test-logs.xml ]; then
-            cat test-logs.xml
-          fi
