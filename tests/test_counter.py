@@ -254,3 +254,47 @@ def test_bash_vs_count_words(text):
 
     # Then the Bash and Function counts should be the same
     assert function_counts == bash_counts, f"Bash Counts: {bash_counts} != Function Counts: {function_counts}"
+
+
+################################################################################
+#### GROUP TEST FUNCTIONS ### GROUP TEST FUNCTIONS ### GROUP TEST FUNCTIONS ####
+################################################################################
+
+# INSTRUCTION: Add two more complicated tests that use your functions as a group. Perhaps tests that download, clean, tokenize and then take a count for a handful of common words.
+# INSTRUCTION: Add a pytest marker to label them as integration tests.
+@pytest.mark.integration
+def test_group_function_1(raven_text):
+
+    # Clean The Raven
+    raven_clean = clean_text(raven_text)
+    raven_manual_clean = raven_text.lower().translate(str.maketrans('', '', string.punctuation))
+    assert raven_manual_clean[1230:1285] == ' illustrations uses visitor where the poem and the actu'
+    assert raven_clean == raven_manual_clean, f"Raven Clean: {raven_clean} does not match Raven Manual Clean: {raven_manual_clean}"
+
+    # Tokenize The Raven
+    raven_tokens = tokenize(raven_text)
+    raven_manual_tokens = clean_text(raven_text).split(" ")
+    assert raven_manual_tokens[1000:1010] == ['least', 'obeisance', 'made', 'he', 'not', 'a', 'minute', 'stopped', 'or', 'stayed']
+    assert raven_tokens == raven_manual_tokens, f"Raven Tokens: {raven_tokens} do not match Raven Manual Tokens: {raven_manual_tokens}"
+
+    #Count The Raven
+    raven_counts = count_words(raven_text)
+    raven_manual_counts = Counter(tokenize(raven_text))
+    assert raven_manual_counts['the'] == 637
+    assert raven_manual_counts['raven'] == 35
+    assert raven_manual_counts['lonely'] == 2
+    assert raven_counts == raven_manual_counts, f"Raven Counts do not match Raven Counts"
+
+# INSTRUCTION: Add two more complicated tests that use your functions as a group. Perhaps tests that download, clean, tokenize and then take a count for a handful of common words.
+# INSTRUCTION: Add a pytest marker to label them as integration tests.
+@pytest.mark.integration
+@pytest.mark.parametrize("fun_text, text_clean, text_tokens, text_counts", [
+    ("Making unit tests is fun! Unless, you don't think it's fun to make unit tests?",
+     "making unit tests is fun unless you dont think its fun to make unit tests",
+     ["making", "unit", "tests", "is", "fun", "unless", "you", "dont", "think", "its", "fun", "to", "make", "unit", "tests"],
+     {"making": 1, "unit": 2, "tests": 2, "is": 1, "fun": 2, "unless": 1, "you": 1, "dont": 1, "think": 1, "its": 1, "to": 1, "make": 1})
+])
+def test_edge_cases(fun_text, text_clean, text_tokens, text_counts):
+    assert clean_text(fun_text) == text_clean
+    assert tokenize(fun_text) == text_tokens
+    assert count_words(fun_text) == text_counts
