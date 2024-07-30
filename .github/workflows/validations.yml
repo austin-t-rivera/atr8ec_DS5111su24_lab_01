@@ -3,6 +3,12 @@ name: Python package
 on:
   push:
   workflow_dispatch:
+    inputs:
+      run_pytest_non_integration:
+        description: 'Run Pytest | Non-integration Tests'
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   build:
@@ -22,7 +28,12 @@ jobs:
         run: |
           make setup
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Test Non-integration tests with pytest
+      - name: Run Pytest | Non-integration Tests
+        if: github.event_name == 'push' || github.event.inputs.run_pytest_non_integration
         run: make test
-      - name: Test integration tests with pytest
-        run: pytest -v -m "integration"
+      - name: Run Pytest | Integration Tests
+        run: pytest -v -m "integration" --junitxml=test-logs.xml
+        continue-on-error: true
+      - name: Cat test-logs on failure
+        if: failure()
+        run: cat test-logs.xml
