@@ -37,4 +37,6 @@ jobs:
       - name: Cat test-logs on failure
         if: failure()
         run: |
-          if [ -f test-logs.xml ]; then cat test-logs.xml fi
+          if [ -f test-logs.xml ]; then
+            cat test-logs.xml
+          fi
