@@ -36,4 +36,5 @@ jobs:
         continue-on-error: true
       - name: Cat test-logs on failure
         if: failure()
-        run: cat test-logs.xml
+        run: |
+          if [ -f test-logs.xml ]; then cat test-logs.xml fi
