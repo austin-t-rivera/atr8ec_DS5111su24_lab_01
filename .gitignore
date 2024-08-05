@@ -1,2 +1,3 @@
-#Exclude all .txt files
-*.txt
+venv/
+*.pyc
+__pycache__/
