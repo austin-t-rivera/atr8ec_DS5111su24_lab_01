@@ -2,7 +2,7 @@ default:
 	@cat makefile
 
 get_texts:
-	bash get_the_books.sh
+	/bin/bash /home/ubuntu/atr8ec_DS5111su24_lab_01/get_the_books.sh
 
 raven_line_count:
 	@echo "'The Raven' line count:"
