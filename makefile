@@ -38,6 +38,10 @@ setup:
 	./venv/bin/pip install --upgrade pip
 	./venv/bin/pip install -r requirements.txt
 
-test:
+lint:
+	@echo "Running linter to show you how bad my code is..."
+	./venv/bin/pylint src/atr8ec/text_processor.py
+
+test: lint
 	@echo "NON-integration tests running..."
 	pytest -v -m "not integration"
