@@ -1,2 +1,2 @@
-# Ignore nothing for now
-
+*.pyc
+__pycache__/
