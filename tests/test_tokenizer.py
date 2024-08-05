@@ -1,10 +1,10 @@
 import pytest
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, 'src')
 import subprocess
 import platform
-from text_processor import clean_text, tokenize
+from atr8ec.text_processor import clean_text, tokenize
 
 
 ################################################################################

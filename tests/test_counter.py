@@ -1,12 +1,12 @@
 import pytest
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, 'src')
 import subprocess
 import platform
 import string
 from collections import Counter
-from text_processor import clean_text, tokenize, count_words
+from atr8ec.text_processor import clean_text, tokenize, count_words
 
 
 ################################################################################
