@@ -18,12 +18,12 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'my-script=atr8ec:text_processor',
+            'my-script=atr8ec:text_processor:clean_text',
         ],
     },
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: Darwin',
     ],
     python_requires='>=3.8',
