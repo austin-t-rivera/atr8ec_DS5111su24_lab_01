@@ -2,7 +2,9 @@ default:
 	@cat makefile
 
 get_texts:
-	/bin/bash /home/ubuntu/atr8ec_DS5111su24_lab_01/get_the_books.sh
+	@echo "Working on getting the books..."
+	/bin/bash get_the_books.sh
+	@echo "Books have been retrieved!"
 
 raven_line_count:
 	@echo "'The Raven' line count:"
@@ -31,6 +33,11 @@ total_words:
 	@cat *.txt | wc -w
 
 setup:
-	python3 -m venv env
-	.env/bin/pip install --upgrade pip
-	.env/bin/pip install -r requirements.txt
+	@echo "Setting up virtual environment, updating pip, and installing requirements..."
+	python3 -m venv venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -r requirements.txt
+
+test:
+	@echo "NON-integration tests running..."
+	pytest -v -m "not integration"
