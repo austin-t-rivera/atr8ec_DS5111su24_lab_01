@@ -14,16 +14,16 @@ setup(
     author_email="atr8ec@virgnia.edu",
     url="https://github.com/austin-t-rivera/atr8ec_DS5111su24_lab_01",
     packages=find_packages(where='src'),
-    packages_dir={'': 'src'},
+    package_dir={'': 'src'},
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'my-script=atr8ec:text_processor',
+            'my-script=atr8ec.text_processor:clean_text',
         ],
     },
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: Darwin',
     ],
     python_requires='>=3.8',
