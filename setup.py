@@ -18,7 +18,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'my-script=atr8ec:text_processor:clean_text',
+            'my-script=atr8ec.text_processor:clean_text',
         ],
     },
     classifiers=[
